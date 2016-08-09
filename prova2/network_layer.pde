@@ -105,5 +105,6 @@ void mouseReleased() {
 
 
 public void next(){
-    dvr.routers.get(0).update_table();
+  for(Router R: dvr.routers)
+    R.update_table();
 }

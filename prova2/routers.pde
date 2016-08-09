@@ -39,6 +39,9 @@ void display(){
     ellipse(position.x,position.y,40,40);
     line(position.x-20,position.y-20,position.x+20,position.y+20);
     line(position.x-20,position.y+20,position.x+20,position.y-20);
+    fill(130,130,200);
+    textSize(13);
+    text(name,position.x,position.y-20);
     popStyle();
     //tab.display_table();
     //tab.printtab();
@@ -73,7 +76,8 @@ void connect(Router R,int distance){
 void display_lines(){
       pushStyle();
       stroke(34,200,123);
-      strokeWeight(3);
+      strokeWeight(1.5);
+      textSize(12);
       for(Router R: connected_routers){
        float Rx = R.position.x; float Ry = R.position.y;
        float x = position.x; float y = position.y;
@@ -87,23 +91,47 @@ void display_lines(){
 }
 
 void update_table(){
-      tab.insert_row("t","t",5);
 
     for(Router R: connected_routers){
         for(int i=0;i< R.tab.getRowCount();i++){
            TableRow tr = R.tab.getRow(i);
           String tr_dest = tr.getString("Destinacioni");
-          int tr_dist = tr.getInt("Distanca");
+          int tr_dist = tr.getInt("Distanca"); //dist e R me ate router
            
            if(tab.findRow(tr_dest,"Destinacioni")==null){
-             int dist = tab.findRow(R.name,"Destinacioni")
+             //nqs ky rresht nuk ekziston shtoje
+             int dist_nga_R = tab.findRow(R.name,"Destinacioni")
              .getInt("Distanca");
              
-           tab.insert_row(tr_dest,R.name,tr_dist+dist);
+           tab.insert_row(tr_dest,R.name,tr_dist+dist_nga_R);
+           msg = "Rreshti u shtua";
            }
            
-        println(" "+tr_dest+" "+tr.getString("Rruga")+" "+tr_dist);
+           else{
+              // print("not null\n");
+            TableRow thisrow = tab.findRow(tr_dest,"Destinacioni");
+             int dist0 = thisrow.getInt("Distanca");
+             int dist_nga_R = tab.findRow(R.name,"Destinacioni")
+             .getInt("Distanca");
+             /*dist0 eshte dist nga routeri ku jemi tek routeri qe
+           qe gjendet dhe tek tabela tjeter*/
+           if(dist_nga_R+tr_dist < dist0){
+             println(name+" "+dist_nga_R+tr_dist+" < "+ dist0);
+           /*nqs dist e R me destinacionit + dist midis routerave
+           eshte me e vogel se dist aktuale modifiko rreshtin*/
+             println(name+" "+" "+thisrow.getString("Destinacioni")+" "+thisrow.getString("Rruga")+" "+dist0);
+             thisrow.setString("Rruga",R.name);
+             thisrow.setInt("Distanca",dist_nga_R+tr_dist);
+             msg = "Rreshti u modifikua";
+           }
+           else println(name+" "+dist_nga_R+tr_dist+" > "+ dist0);
+
+         
+         }
+           
+        //println(R.name+" "+tr_dest+" "+tr.getString("Rruga")+" "+tr_dist);
         }
+       // println();
     }
 }
 
