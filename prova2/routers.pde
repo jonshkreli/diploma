@@ -93,6 +93,7 @@ void display_lines(){
 }
 
 void update_table(){
+  tab.changed_rows.clear();
     for(Router R: connected_routers){
         for(int i=0;i< R.tab.getRowCount();i++){
            TableRow tr = R.tab.getRow(i);

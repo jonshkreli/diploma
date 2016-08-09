@@ -43,7 +43,7 @@ class table extends Table{
   }
   if(changed_rows.size()>0)
   {
-    println(changed_rows);
+    //println(changed_rows);
     
   for(float y_poz: changed_rows){
     

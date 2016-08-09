@@ -2,14 +2,34 @@ class DVR{
   ArrayList<Router> routers;
   int selected = -1;
   boolean hold = false;
+  int c = 97; 
   
   Button next_step,new_router;
+  ScrollableList emri_r;
+  CheckBox lidhjet;
+  ControlGroup shtim_routeri;
   
   DVR(){
-    routers = new ArrayList<Router>();
-    int c = 97; 
-    
-    for(int i=0;i<6;i++){
+    next_step = cscene.addButton("Meso").setPosition(width/2-100,20);
+    //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
+     shtim_routeri = cscene.addGroup("Routeri i ri")
+                .setPosition(width/2+100,20)
+                .setBackgroundHeight(100)
+                .setBackgroundColor(color(200,200,200,50));      
+shtim_routeri.setOpen(false);
+//cscene.addLabel("Emri routerit").setPosition(5,5).setGroup(shtim_routeri);
+//cscene.add("yuty").setPosition(10,40).setGroup(shtim_routeri);
+ emri_r= cscene.addScrollableList("Emri i routerit").setPosition(0,5).setGroup(shtim_routeri);
+    emri_r.setOpen(false).setHeight(80).setItemHeight(15);
+        emri_r.setColorBackground(color(100,100,230,100)).setColorActive(color(12));
+    emri_r.setColorValue(color(240,240,4));
+    print(emri_r.getValueLabel());
+
+    lidhjet = cscene.addCheckBox("Lidh routerin").setGroup(shtim_routeri);
+    lidhjet.setPosition(5,40);
+   
+    routers = new ArrayList<Router>(); 
+    for(int i=0;i<4;i++){
       
       boolean afer = false;
       PVector poz = new PVector(random(0+50,width-100),random(50,height-100));
@@ -25,33 +45,32 @@ class DVR{
     routers.add(R);
     R.tab.insert_row(R.name,R.name,0);
     c++;
+    
+    emri_r.addItem(R.name,R.name);
+    lidhjet.addItem(R.name,97+i);
     }
 
     for(Router R:routers){
     int nr_lidhjeve = (int)random(0,routers.size());
       for(int i=0;i<nr_lidhjeve;i++){
         int nr_routerit = (int)random(0,routers.size());
-      R.connect(routers.get(nr_routerit),(int)random(0,30));
+      R.connect(routers.get(nr_routerit),(int)random(1,30));
       }
     
     }
-    
-    next_step = cscene.addButton("Meso").setPosition(width/2-100,20);
-    //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
-    ControlGroup shtim_routeri = cscene.addGroup("Routeri i ri")
-                .setPosition(width/2+100,20)
-                .setBackgroundHeight(100)
-                .setBackgroundColor(color(200,200,200,50));      
-shtim_routeri.setOpen(false);
-cscene.addLabel("Emri routerit").setPosition(width/2+100,40).setGroup(shtim_routeri);
 
 }
 void activateScene(){
   pushStyle();
-  fill(244);
+  fill(244,15);
   text("DVR",width/2,height/2);
   popStyle();
-
+    //print((int)emri_r.getValue());
+    for(Toggle check_r: lidhjet.getItems()){
+    print(check_r.isUpdate()+" ");
+    }
+    println();
+    
 for(Router R: routers){
 R.display();
 //R.tab.display_table(R.position,R.changed_rows);

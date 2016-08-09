@@ -32,10 +32,10 @@ PImage boom;
     }
     
     void collision(){
-      popStyle();
+      pushStyle();
     fill(255,4,4);
      rect(origin.x,origin.y,30,20);
-     pushStyle();
+     popStyle();
     //image(boom,origin.x,origin.y);
     }
     
