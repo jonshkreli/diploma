@@ -46,7 +46,7 @@ h+=80;
 
 
 void draw() {
-  background(149,12,12);
+  background(14,12,12,20);
 
   //createScene(EmriSkenes);     
       String name=EmriSkenes;
@@ -85,7 +85,8 @@ void draw() {
           cscene.remove("ul");
           cscene.remove("shto");
           cscene.remove("Ndrysho sasine e hedhjes se paketave");
-    }
+          cscene.remove("Meso");  
+  }
     
   
 }

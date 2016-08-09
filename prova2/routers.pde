@@ -7,6 +7,7 @@ class Router{
  ArrayList<Router> connected_routers;
  //Router[] connected_routers; 
   String msg ="";
+ //FloatList changed_rows; 
   
 Router(String name){
     this.name = name;
@@ -18,6 +19,7 @@ Router(String name){
     tab = new table();
     connected_routers = new ArrayList<Router>();
     //connected_routers = new Router[4];
+    //changed_rows = new FloatList();
 }
 
 Router(String name,PVector poz){
@@ -91,7 +93,6 @@ void display_lines(){
 }
 
 void update_table(){
-
     for(Router R: connected_routers){
         for(int i=0;i< R.tab.getRowCount();i++){
            TableRow tr = R.tab.getRow(i);
@@ -120,11 +121,14 @@ void update_table(){
            /*nqs dist e R me destinacionit + dist midis routerave
            eshte me e vogel se dist aktuale modifiko rreshtin*/
              println(name+" "+" "+thisrow.getString("Destinacioni")+" "+thisrow.getString("Rruga")+" "+dist0);
+             msg = "Rreshti u modifikua "+name+" "+" "+thisrow.getString("Destinacioni")+" "+thisrow.getString("Rruga")+" "+dist0;
+
              thisrow.setString("Rruga",R.name);
              thisrow.setInt("Distanca",dist_nga_R+tr_dist);
-             msg = "Rreshti u modifikua";
+             float recty = position.y+20*i;
+             tab.changed_rows.append(recty);
            }
-           else println(name+" "+dist_nga_R+tr_dist+" > "+ dist0);
+           //else println(name+" "+dist_nga_R+tr_dist+" > "+ dist0);
 
          
          }

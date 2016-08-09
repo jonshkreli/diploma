@@ -36,7 +36,7 @@ class DVR{
     
     }
     
-    next_step = cscene.addButton("next").setPosition(width/2,20);
+    next_step = cscene.addButton("Meso").setPosition(width/2,20);
     
   }
 void activateScene(){
@@ -47,7 +47,9 @@ void activateScene(){
 
 for(Router R: routers){
 R.display();
+//R.tab.display_table(R.position,R.changed_rows);
 R.tab.display_table(R.position);
+
 R.display_lines();
 display_msg(R.msg);
 
@@ -104,7 +106,7 @@ void mouseReleased() {
 }
 
 
-public void next(){
+public void Meso(){
   for(Router R: dvr.routers)
     R.update_table();
 }
