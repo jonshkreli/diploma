@@ -47,7 +47,6 @@ class table extends Table{
     
   for(float y_poz: changed_rows){
     
-    println("y_poz "+y_poz+" ");
              pushStyle();
              fill(200,200,100,50);
              rect(x,y_poz,90,20);

@@ -14,8 +14,10 @@ PImage boom;
     }
     
     void display(){
+      pushStyle();
       fill(78,98,150);
-        rect(origin.x,origin.y,30,20);
+        rect(origin.x,origin.y,30,20,4);
+        popStyle();
     }
    void update(){
      origin.add(vel);
@@ -30,9 +32,10 @@ PImage boom;
     }
     
     void collision(){
+      popStyle();
     fill(255,4,4);
      rect(origin.x,origin.y,30,20);
-     
+     pushStyle();
     //image(boom,origin.x,origin.y);
     }
     

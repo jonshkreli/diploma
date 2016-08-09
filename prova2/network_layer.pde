@@ -3,7 +3,7 @@ class DVR{
   int selected = -1;
   boolean hold = false;
   
-  Button next_step;
+  Button next_step,new_router;
   
   DVR(){
     routers = new ArrayList<Router>();
@@ -36,9 +36,16 @@ class DVR{
     
     }
     
-    next_step = cscene.addButton("Meso").setPosition(width/2,20);
-    
-  }
+    next_step = cscene.addButton("Meso").setPosition(width/2-100,20);
+    //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
+    ControlGroup shtim_routeri = cscene.addGroup("Routeri i ri")
+                .setPosition(width/2+100,20)
+                .setBackgroundHeight(100)
+                .setBackgroundColor(color(200,200,200,50));      
+shtim_routeri.setOpen(false);
+cscene.addLabel("Emri routerit").setPosition(width/2+100,40).setGroup(shtim_routeri);
+
+}
 void activateScene(){
   pushStyle();
   fill(244);
@@ -102,6 +109,14 @@ void mousePressed() {
 
 void mouseReleased() {
   hold=false;
+}
+
+public void new_router_click(){
+    print("shtooooooooooooo");
+    ControlGroup shtim_routeri = cscene.addGroup("Routeri i ri")
+                .setPosition(width/2+100,50)
+                .setBackgroundHeight(100)
+                .setBackgroundColor(color(200,200,200,50));      
 }
 }
 

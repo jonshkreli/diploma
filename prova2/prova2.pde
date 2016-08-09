@@ -85,7 +85,8 @@ void draw() {
           cscene.remove("ul");
           cscene.remove("shto");
           cscene.remove("Ndrysho sasine e hedhjes se paketave");
-          cscene.remove("Meso");  
+          cscene.remove("Meso");
+          cscene.remove("Shto router");
   }
     
   
@@ -117,6 +118,8 @@ public void createScene(String name){
 
 public void controlEvent(ControlEvent theEvent) {
  // print(theEvent);
+ if(theEvent.name() == "Shto router")
+ dvr.new_router_click();
  
 }
 
