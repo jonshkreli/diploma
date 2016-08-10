@@ -77,39 +77,63 @@ class DVR{
     
 }
 
-void lista_emrave(){
-  for(Router R:routers)
+void lista_emrave(){ 
+  //StringList rnames = new StringList();
+  if(lidhjet.getItems().size()>0)
+  for(Toggle chr: lidhjet.getItems()){
+  chr.remove();
+  }
+  for(Label sc: emri_r.getItems())
+  emri_r.removeItem(sc.getLabel());
+  //if(dist_lidhjes.length>0)
+ // for(Slider s: dist_lidhjes){
+ // s.remove();
+ // }
 
-  
-  StringList rnanes = new StringList();
+  this.nr_routerave = routers.size();
   int j=0;
-  nr_routerave = routers.size();
   for(Router R: routers){
-    rnanes.append(R.name);
+    //rnames.append(R.name);
+    /*boolean ekziston = false;
+    for(Toggle chr: lidhjet.getItems()){
+    if(chr.getLabel()==R.name){
+    ekziston=true; 
+    //print(chr.getName());
+    lidhjet.removeItem(chr.getLabel());
+    break;
+    }
+    }*/
+   // if(ekziston==false){
      lidhjet.addItem(R.name,97+j).setLabel(R.name);
     
      dist_lidhjes[j]=cscene.addSlider("Distanca me "+R.name)
     .setGroup(shtim_routeri).setPosition(30,40+j*12).setHeight(12)
     .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
 j++;  
+//}
+
 }
   
+  
+  
 for(int i=c;i<= c+26-routers.size()-1;i++){
-  boolean ekziston= false;
+  boolean exist= false;
   String kjo_shkronje = String.valueOf((char)i).toUpperCase();
-  String rname;  
     for(Router R: routers){
     if(kjo_shkronje==R.name){
-      ekziston=true;
+      exist=true;
       break;
     }
-    else emri_r.removeItem(R.name);
-
+   // else emri_r.removeItem(R.name);
   }
-if(ekziston==false)
+if(exist==false)
 emri_r.addItem(kjo_shkronje,kjo_shkronje).setLabel(kjo_shkronje);
-
 }
+
+for(Toggle t:lidhjet.getItems()){
+print(t.getLabel()+" ");
+}
+
 }
 
 void activateScene(){
@@ -123,14 +147,17 @@ void activateScene(){
     }
     println();*/
     
-     for (int i=0;i<lidhjet.getArrayValue().length;i++) {
+     /*for (int i=0;i<lidhjet.getArrayValue().length;i++) {
       int n = (int)lidhjet.getArrayValue()[i];
       //print(n+" ");
   if(n==1){
     dist_lidhjes[i].setLock(false).setColorForeground(color(180,20,20));
      }
-  else dist_lidhjes[i].setLock(true).setColorForeground(color(150,150,150));
-    }//println();
+  else {
+  dist_lidhjes[i].setLock(true).setColorForeground(color(150,150,150));
+  }
+  }*/
+  //println();
     
 for(Router R: routers){
 R.display();
