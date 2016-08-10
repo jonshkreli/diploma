@@ -10,16 +10,22 @@ class DVR{
   ScrollableList emri_r;
   CheckBox lidhjet;
   Slider dist_lidhjes[];
+  Tab simulatori,pershkrimi;
 
   DVR(){
     nr_routerave =4;
-    next_step = cscene.addButton("Meso").setPosition(width/2-100,20);
+    
+   simulatori= cscene.getTab("default").setLabel("Simulatori");
+    pershkrimi = cscene.addTab("Preshkrimi");
+
+    
+    next_step = cscene.addButton("Meso").setPosition(width/2-100,10).setTab("default");
     //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
    shtim_routeri = cscene.addGroup("Routeri i ri")
                 .setPosition(width/2+100,20)
                 .setBackgroundHeight(70+nr_routerave*12)
                 .setBackgroundColor(color(200,200,200,50))
-                .setOpen(false);
+                .setOpen(false).setTab("default");
 //cscene.addLabel("Emri routerit").setPosition(5,5).setGroup(shtim_routeri);
 //cscene.add("yuty").setPosition(10,40).setGroup(shtim_routeri);
 
@@ -50,11 +56,6 @@ class DVR{
     c++;
     
     
-    lidhjet.addItem(R.name,97+i);
-    
-     dist_lidhjes[i]=cscene.addSlider("Distanca me "+R.name)
-    .setGroup(shtim_routeri).setPosition(30,40+i*12).setHeight(12)
-    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
     }
 
     for(Router R:routers){
@@ -73,25 +74,41 @@ class DVR{
 
     lista_emrave();
 
+    
 }
 
 void lista_emrave(){
+  for(Router R:routers)
+
+  
   StringList rnanes = new StringList();
+  int j=0;
+  nr_routerave = routers.size();
   for(Router R: routers){
     rnanes.append(R.name);
-  }
+     lidhjet.addItem(R.name,97+j).setLabel(R.name);
+    
+     dist_lidhjes[j]=cscene.addSlider("Distanca me "+R.name)
+    .setGroup(shtim_routeri).setPosition(30,40+j*12).setHeight(12)
+    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+j++;  
+}
   
 for(int i=c;i<= c+26-routers.size()-1;i++){
   boolean ekziston= false;
   String kjo_shkronje = String.valueOf((char)i).toUpperCase();
+  String rname;  
     for(Router R: routers){
     if(kjo_shkronje==R.name){
       ekziston=true;
       break;
     }
+    else emri_r.removeItem(R.name);
+
   }
 if(ekziston==false)
-emri_r.addItem(kjo_shkronje,kjo_shkronje);
+emri_r.addItem(kjo_shkronje,kjo_shkronje).setLabel(kjo_shkronje);
+
 }
 }
 
@@ -175,11 +192,34 @@ void mouseReleased() {
 }
 
 public void new_router_click(){
-  
-    for(Slider dist_slider: dist_lidhjes){
-      if(!dist_slider.isLock())
-    println(dist_slider.getName()+" "+dist_slider.getValue());
+    //print(emri_r.getLabel()+" ");
+    ArrayList<Router> new_connections= new ArrayList<Router>();
+    Router NewR = new Router(emri_r.getLabel());
+    
+      for(Toggle cr: lidhjet.getItems())
+      if(cr.getValue()==1)        
+      for(Router R: routers)
+      if(R.name == cr.getLabel()) new_connections.add(R);
+      
+    //  println();
+
+    
+    for(Slider dist_slider: dist_lidhjes)
+      //if(!dist_slider.isLock())
+   // println(dist_slider.getName()+" "+dist_slider.getValue());
+    for(Router R: new_connections){
+     // println("["+R.name+"] ["+dist_slider.getName().substring(dist_slider.getName().length()-1)+"]");
+      char s = dist_slider.getName().charAt(dist_slider.getName().length()-1);
+      char rn = R.name.charAt(0);
+      if(rn==s) NewR.connect(R,(int)dist_slider.getValue());
   }
+ 
+          routers.add(NewR);
+/*
+    for(Router n: NewR.connected_routers){
+    print(n.name+" ");
+    }*/
+    lista_emrave();
 }
 
 

@@ -3,7 +3,7 @@ import controlP5.*;
 ControlP5 kont;
 ControlP5 back;
 ControlP5 cscene;
-
+//ScrollableList main_menu;
 
 Textfield titulli;
 String[] menus= {"msimi1","msimi2","DVR","adaad","hgdgd","wrss"};
@@ -33,10 +33,14 @@ back = new ControlP5(this);
 back.setVisible(false);
 Button kthehu = back.addButton("Kthehu").setPosition(width-170,height-60).setSize(120,45).setFont(createFont("Arial",26,true));;
 
+//main_menu = kont.addScrollableList("Menuja").setWidth(width)
+//.setHeight(height-50).setOpen(true).setPosition(0,50);
+
 int h = 95;
 for(int i=0;i < menus.length;i++){
 //println(menus[i]);
 menubut[i] = kont.addButton(menus[i]).setPosition(0,h).setSize(width, 80).setFont(createFont("Arial",26,true));
+//main_menu.addItem(menus[i],menubut[i]);
 h+=80;
 }
 
