@@ -7,6 +7,7 @@ ControlP5 cscene;
 
 Textfield titulli;
 String[] menus= {"msimi1","msimi2","DVR","adaad","hgdgd","wrss"};
+
 Button menubut[] = new Button[10];
 String EmriSkenes ="";
 
@@ -50,6 +51,7 @@ void draw() {
 
   //createScene(EmriSkenes);     
       String name=EmriSkenes;
+      
         if(name=="skena1"){          
       s1.activateScene();
       kont.setVisible(false);
@@ -118,9 +120,10 @@ public void createScene(String name){
 
 public void controlEvent(ControlEvent theEvent) {
  // print(theEvent);
- if(theEvent.name() == "Shto router")
+ if(theEvent.name() == "Shto routerin")
  dvr.new_router_click();
  
+
 }
 
 
