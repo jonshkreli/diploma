@@ -9,7 +9,7 @@ class DVR{
   ControlGroup shtim_routeri;
   ScrollableList emri_r;
   CheckBox lidhjet;
-  Slider dist_lidhjes[];
+  ArrayList<Slider>dist_lidhjes;
   Tab simulatori,pershkrimi;
 
   DVR(){
@@ -34,7 +34,7 @@ class DVR{
    
      //dist_lidhjes=cscene.addSlider("Distanca me ")
     //.setGroup(shtim_routeri).setPosition(20,40);
-    dist_lidhjes = new Slider[nr_routerave];
+    dist_lidhjes = new ArrayList<Slider>();
  new_router = cscene.addButton("Shto routerin").setGroup(shtim_routeri);
   new_router.setPosition(20,nr_routerave*12+50); 
     routers = new ArrayList<Router>(); 
@@ -73,23 +73,7 @@ class DVR{
     print(emri_r.getValueLabel());
 
     lista_emrave();
-
     
-}
-
-void lista_emrave(){ 
-  //StringList rnames = new StringList();
-  if(lidhjet.getItems().size()>0)
-  for(Toggle chr: lidhjet.getItems()){
-  chr.remove();
-  }
-  for(Label sc: emri_r.getItems())
-  emri_r.removeItem(sc.getLabel());
-  //if(dist_lidhjes.length>0)
- // for(Slider s: dist_lidhjes){
- // s.remove();
- // }
-
   this.nr_routerave = routers.size();
   int j=0;
   for(Router R: routers){
@@ -104,15 +88,30 @@ void lista_emrave(){
     }
     }*/
    // if(ekziston==false){
-     lidhjet.addItem(R.name,97+j).setLabel(R.name);
+     lidhjet.addItem(R.name,0).setLabel(R.name);
     
-     dist_lidhjes[j]=cscene.addSlider("Distanca me "+R.name)
+     Slider ds =cscene.addSlider("Distanca me "+R.name)
     .setGroup(shtim_routeri).setPosition(30,40+j*12).setHeight(12)
     .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+    dist_lidhjes.add(ds);
 j++;  
 //}
 
 }
+    
+}
+
+void lista_emrave(){ 
+  //StringList rnames = new StringList();
+  //if(lidhjet.getItems().size()>0)
+  //for(Toggle chr: lidhjet.getItems()){
+ // chr.remove();
+ // }
+  //if(dist_lidhjes.length>0)
+ // for(Slider s: dist_lidhjes){
+ // s.remove();
+ // }
+
   
   
   
@@ -124,7 +123,7 @@ for(int i=c;i<= c+26-routers.size()-1;i++){
       exist=true;
       break;
     }
-   // else emri_r.removeItem(R.name);
+    // if(!emri_r.getItem(R.name).isEmpty()) emri_r.removeItem(R.name);
   }
 if(exist==false)
 emri_r.addItem(kjo_shkronje,kjo_shkronje).setLabel(kjo_shkronje);
@@ -221,13 +220,13 @@ void mouseReleased() {
 public void new_router_click(){
     //print(emri_r.getLabel()+" ");
     ArrayList<Router> new_connections= new ArrayList<Router>();
-    Router NewR = new Router(emri_r.getLabel());
+    String NewRname = emri_r.getLabel();
+    Router NewR = new Router(NewRname);
     
       for(Toggle cr: lidhjet.getItems())
       if(cr.getValue()==1)        
       for(Router R: routers)
       if(R.name == cr.getLabel()) new_connections.add(R);
-      
     //  println();
 
     
@@ -242,16 +241,27 @@ public void new_router_click(){
   }
  
           routers.add(NewR);
+          this.nr_routerave = routers.size();
+          shtim_routeri.setHeight(70+nr_routerave*12);
 /*
     for(Router n: NewR.connected_routers){
     print(n.name+" ");
     }*/
-    lista_emrave();
+    
+ lidhjet.addItem(NewRname,0).setLabel(NewRname);
+ 
+     Slider Newds =cscene.addSlider("Distanca me "+NewRname)
+    .setGroup(shtim_routeri).setPosition(30,40+(nr_routerave-1)*12).setHeight(12)
+    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+     dist_lidhjes.add(Newds);
+
+   // lista_emrave();
+   print("dsafdsafasd");
+   for(Router R: routers) print(R.name+" ");
 }
 
 
 }
-
 
 public void Meso(){
   for(Router R: dvr.routers)

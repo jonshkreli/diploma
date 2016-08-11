@@ -20,7 +20,7 @@ DVR dvr;
 void setup(){
   //fullScreen(P2D);
   //noLoop();
-  size(600,400);
+  size(600,800);
 kont = new ControlP5(this);
 titulli = kont.addTextfield("Bazat e network-ut").setPosition(0,0).setSize(width,40);
 titulli.setWidth(width);
