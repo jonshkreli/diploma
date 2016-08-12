@@ -20,7 +20,7 @@ DVR dvr;
 void setup(){
   //fullScreen(P2D);
   //noLoop();
-  size(600,800);
+  size(600,600);
 kont = new ControlP5(this);
 titulli = kont.addTextfield("Bazat e network-ut").setPosition(0,0).setSize(width,40);
 titulli.setWidth(width);
@@ -91,8 +91,10 @@ void draw() {
           cscene.remove("ul");
           cscene.remove("shto");
           cscene.remove("Ndrysho sasine e hedhjes se paketave");
-          cscene.remove("Meso");
-          cscene.remove("Shto router");
+          cscene.remove("Preshkrimi");
+          cscene.remove("simulatoriGg");
+
+
   }
     
   
@@ -127,9 +129,16 @@ public void controlEvent(ControlEvent theEvent) {
  if(theEvent.name() == "Shto routerin")
  dvr.new_router_click();
  
-
+ if(theEvent.isFrom("Preshkrimi")){print("Preshkrimi");}
+  if(theEvent.isFrom("Simulatori")) {print("simulatori");}
+  
+  int c=97;
+for(int i=c;i<c+26-1;i++) {  
+  String l = String.valueOf((char)i).toUpperCase();
+  if(theEvent.isFrom("del"+l)) dvr.deleteX(l);
 }
 
+}
 
 
 public void msimi1(){

@@ -2,44 +2,72 @@ class DVR{
   ArrayList<Router> routers;
   int selected = -1;
   boolean hold = false;
-  int c = 97; 
+  int c; 
   int nr_routerave;
   
-  Button next_step,new_router;
+  Tab simulatori,pershkrimi;
+  Group simulatoriGg;
+
+  Button next_step,new_router,reset;
   ControlGroup shtim_routeri;
   ScrollableList emri_r;
   CheckBox lidhjet;
   ArrayList<Slider>dist_lidhjes;
-  Tab simulatori,pershkrimi;
+  ArrayList<Button>delete_buts;
 
-  DVR(){
-    nr_routerave =4;
-    
+
+  DVR(){    
    simulatori= cscene.getTab("default").setLabel("Simulatori");
     pershkrimi = cscene.addTab("Preshkrimi");
-
-    
-    next_step = cscene.addButton("Meso").setPosition(width/2-100,10).setTab("default");
+    simulatoriGg = cscene.addGroup("simulatoriGg");
+    next_step = cscene.addButton("Meso").setPosition(width/2-100,10).setTab("default").setGroup(simulatoriGg);
+    reset = cscene.addButton("Rivendos").setPosition(width/2-200,10).setTab("default").setGroup(simulatoriGg);
     //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
    shtim_routeri = cscene.addGroup("Routeri i ri")
-                .setPosition(width/2+100,20)
-                .setBackgroundHeight(70+nr_routerave*12)
+                .setPosition(width/2+100,20).setWidth(175)
                 .setBackgroundColor(color(200,200,200,50))
-                .setOpen(false).setTab("default");
+                .setOpen(false).setTab("default").setGroup(simulatoriGg);
 //cscene.addLabel("Emri routerit").setPosition(5,5).setGroup(shtim_routeri);
 //cscene.add("yuty").setPosition(10,40).setGroup(shtim_routeri);
+  new_router = cscene.addButton("Shto routerin").setGroup(shtim_routeri);
+poziciono_butonat();
+       
+    emri_r= cscene.addScrollableList("Emri i routerit").setPosition(0,5).setGroup(shtim_routeri);
+    emri_r.setOpen(false).setHeight(80).setItemHeight(15);
+    emri_r.setColorBackground(color(100,100,230)).setColorActive(color(12));
+    emri_r.setColorValue(color(240,240,4));
+    print(emri_r.getValueLabel());
 
+    
+  
+init_routers();  
+}
+
+void poziciono_butonat(){
+          shtim_routeri .setBackgroundHeight(70+nr_routerave*12);
+          new_router.setPosition(51,nr_routerave*12+50); 
+
+}
+
+    void init_routers(){
     lidhjet = cscene.addCheckBox("Lidh routerin").setGroup(shtim_routeri);
-    lidhjet.setPosition(5,40).setItemHeight(11).setBarHeight(3);
-   
-     //dist_lidhjes=cscene.addSlider("Distanca me ")
-    //.setGroup(shtim_routeri).setPosition(20,40);
+    lidhjet.setPosition(21,40).setItemHeight(11).setBarHeight(3);
+
     dist_lidhjes = new ArrayList<Slider>();
- new_router = cscene.addButton("Shto routerin").setGroup(shtim_routeri);
-  new_router.setPosition(20,nr_routerave*12+50); 
-    routers = new ArrayList<Router>(); 
-    for(int i=0;i<nr_routerave;i++){
-      
+    delete_buts = new ArrayList<Button>();
+
+          nr_routerave =4; c=97;
+            poziciono_butonat();
+         if(routers!=null) {
+         if(routers.size()>0) {
+           for(Router R: routers){
+    print(R.name+" | ");
+           }
+         routers.clear();}
+       }
+          routers = new ArrayList<Router>();
+          
+    for(int i=0;i<nr_routerave;i++){   
       boolean afer = false;
       PVector poz = new PVector(random(0+50,width-100),random(50,height-100));
       if(i>0)
@@ -47,15 +75,12 @@ class DVR{
         float dist = poz.dist(R.position);
         if(dist<150) afer = true;
       }
-      
       if(afer==true){i--; continue;}
       
       Router R =new Router(String.valueOf((char)c).toUpperCase(),poz);
     routers.add(R);
     R.tab.insert_row(R.name,R.name,0);
     c++;
-    
-    
     }
 
     for(Router R:routers){
@@ -64,57 +89,29 @@ class DVR{
         int nr_routerit = (int)random(0,routers.size());
       R.connect(routers.get(nr_routerit),(int)random(1,30));
       }
-    
     }
-     emri_r= cscene.addScrollableList("Emri i routerit").setPosition(0,5).setGroup(shtim_routeri);
-    emri_r.setOpen(false).setHeight(80).setItemHeight(15);
-    emri_r.setColorBackground(color(100,100,230,100)).setColorActive(color(12));
-    emri_r.setColorValue(color(240,240,4));
-    print(emri_r.getValueLabel());
 
     lista_emrave();
     
   this.nr_routerave = routers.size();
   int j=0;
   for(Router R: routers){
-    //rnames.append(R.name);
-    /*boolean ekziston = false;
-    for(Toggle chr: lidhjet.getItems()){
-    if(chr.getLabel()==R.name){
-    ekziston=true; 
-    //print(chr.getName());
-    lidhjet.removeItem(chr.getLabel());
-    break;
-    }
-    }*/
-   // if(ekziston==false){
      lidhjet.addItem(R.name,0).setLabel(R.name);
-    
+     
      Slider ds =cscene.addSlider("Distanca me "+R.name)
-    .setGroup(shtim_routeri).setPosition(30,40+j*12).setHeight(12)
+    .setGroup(shtim_routeri).setPosition(51,40+j*12).setHeight(12)
     .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
     dist_lidhjes.add(ds);
-j++;  
-//}
-
-}
     
+   Button delete = cscene.addButton("del"+R.name).setLabel("X")
+   .setGroup(shtim_routeri).setPosition(5,40+j*12).setHeight(12).setWidth(10);
+   delete_buts.add(delete);
+   
+j++;  
+}
 }
 
 void lista_emrave(){ 
-  //StringList rnames = new StringList();
-  //if(lidhjet.getItems().size()>0)
-  //for(Toggle chr: lidhjet.getItems()){
- // chr.remove();
- // }
-  //if(dist_lidhjes.length>0)
- // for(Slider s: dist_lidhjes){
- // s.remove();
- // }
-
-  
-  
-  
 for(int i=c;i<= c+26-routers.size()-1;i++){
   boolean exist= false;
   String kjo_shkronje = String.valueOf((char)i).toUpperCase();
@@ -130,7 +127,7 @@ emri_r.addItem(kjo_shkronje,kjo_shkronje).setLabel(kjo_shkronje);
 }
 
 for(Toggle t:lidhjet.getItems()){
-print(t.getLabel()+" ");
+print(t.getLabel()+" L ");
 }
 
 }
@@ -140,22 +137,18 @@ void activateScene(){
   fill(244,15);
   text("DVR",width/2,height/2);
   popStyle();
-    //print((int)emri_r.getValue());
-   /* for(Toggle check_r: lidhjet.getItems()){
-    print(check_r.isUpdate()+" ");
-    }
-    println();*/
+  if(simulatori.isActive()){
     
-     /*for (int i=0;i<lidhjet.getArrayValue().length;i++) {
+     for (int i=0;i<lidhjet.getArrayValue().length;i++) {
       int n = (int)lidhjet.getArrayValue()[i];
       //print(n+" ");
   if(n==1){
-    dist_lidhjes[i].setLock(false).setColorForeground(color(180,20,20));
+    dist_lidhjes.get(i).setLock(false).setColorForeground(color(180,20,20));
      }
   else {
-  dist_lidhjes[i].setLock(true).setColorForeground(color(150,150,150));
+  dist_lidhjes.get(i).setLock(true).setColorForeground(color(150,150,150));
   }
-  }*/
+  }
   //println();
     
 for(Router R: routers){
@@ -167,7 +160,7 @@ R.display_lines();
 display_msg(R.msg);
 
 if(R.mouseOver()){
-    R.tab.opacity = 200;
+    R.tab.opacity = 516;
 } else R.tab.opacity = 100;
 
 }
@@ -183,6 +176,10 @@ if(R.mouseOver()){
   }
           mousePressed();
     mouseReleased();
+
+}
+ else if(simulatori.isActive()){print("DSfas");}
+
 
 }
 
@@ -242,22 +239,64 @@ public void new_router_click(){
  
           routers.add(NewR);
           this.nr_routerave = routers.size();
-          shtim_routeri.setHeight(70+nr_routerave*12);
+          poziciono_butonat();
+
 /*
     for(Router n: NewR.connected_routers){
     print(n.name+" ");
     }*/
     
- lidhjet.addItem(NewRname,0).setLabel(NewRname);
- 
-     Slider Newds =cscene.addSlider("Distanca me "+NewRname)
-    .setGroup(shtim_routeri).setPosition(30,40+(nr_routerave-1)*12).setHeight(12)
-    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
-     dist_lidhjes.add(Newds);
+       try{ lidhjet.addItem(NewRname,0).setLabel(NewRname);}
+       catch(NullPointerException n){ print(n); display_msg(n.toString()); } 
+   finally{String err="Chackbox-i "+NewRname+" ekziston"; print(err); display_msg(err);}
 
+     Slider Newds =cscene.addSlider("Distanca me "+NewRname)
+    .setGroup(shtim_routeri).setPosition(51,40+(nr_routerave-1)*12).setHeight(12)
+    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+    try{ dist_lidhjes.add(Newds);}
+    catch(ArrayIndexOutOfBoundsException n){ print(n); display_msg(n.toString()); }
+    finally{String err="Slideri "+NewRname+" ekziston"; print(err); display_msg(err);}
+
+   Button delete = cscene.addButton("del"+NewRname).setLabel("X")
+   .setGroup(shtim_routeri).setPosition(5,40+(nr_routerave-1)*12).setHeight(12).setWidth(10);
+   delete_buts.add(delete);
+
+
+    emri_r.removeItem((String)NewRname);
    // lista_emrave();
    print("dsafdsafasd");
    for(Router R: routers) print(R.name+" ");
+}
+
+ void deleteX(String Rname){
+//print("del" +Rname);
+emri_r.addItem(Rname,Rname).setLabel(Rname);
+char rn = Rname.charAt(0);
+
+for(Toggle t: lidhjet.getItems()){
+  //println("=="+t.getLabel().toString()+"=="+t.getName().toString()+"=="+(String)Rname+"==");
+char tn = t.getName().charAt(0);
+if(tn==rn) t.remove();
+}
+
+for(Slider s: dist_lidhjes){
+char tn = s.getName().charAt(s.getName().length()-1);
+if(tn==rn) s.remove();
+}
+
+for(Button d: delete_buts){ 
+  char tn = d.getName().charAt(3);
+  if(tn==rn) d.remove();
+}
+
+for(Router R:routers) {
+char Rn = R.name.charAt(0);
+if(Rn==rn){
+  R.connected_routers.clear();
+  routers.remove(R);
+}}
+
+poziciono_butonat();
 }
 
 
@@ -266,4 +305,15 @@ public void new_router_click(){
 public void Meso(){
   for(Router R: dvr.routers)
     R.update_table();
+}
+
+public void Rivendos(){
+    dvr.emri_r.clear();
+    dvr.lidhjet.remove();
+    for(Slider sr: dvr.dist_lidhjes){ sr.remove(); }
+    for(Button d: dvr.delete_buts){
+    println(d.getName()+" "+d.getArrayValue()+" "+d.getValue()+" "+d.getValueLabel()+" "+d.getLabel());
+  d.remove();  
+  }
+  dvr.init_routers();
 }

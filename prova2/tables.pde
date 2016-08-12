@@ -33,6 +33,7 @@ class table extends Table{
       rect(x,y,30,20);rect(x+30,y,30,20);rect(x+60,y,30,20);
       fill(25);
       textSize(12);
+      
       text(rresht.getString("Destinacioni"),x+2,y+15);
       text(rresht.getString("Rruga"),x+32,y+15);
       text(rresht.getInt("Distanca"),x+62,y+15);
