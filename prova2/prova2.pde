@@ -6,7 +6,7 @@ ControlP5 cscene;
 //ScrollableList main_menu;
 
 Textfield titulli;
-String[] menus= {"msimi1","msimi2","DVR","adaad","hgdgd","wrss"};
+String[] menus= {"ALOHA","Slotted ALOHA","DVR","Llogarit IP","hgdgd","wrss"};
 
 Button menubut[] = new Button[10];
 String EmriSkenes ="";
@@ -14,7 +14,7 @@ String EmriSkenes ="";
 skena1 s1; 
 skena2 s2;
 DVR dvr;
-
+IPcal ipcal;
 
 
 void setup(){
@@ -56,7 +56,7 @@ void draw() {
   //createScene(EmriSkenes);     
       String name=EmriSkenes;
       
-        if(name=="skena1"){          
+        if(name=="ALOHA"){          
       s1.activateScene();
       kont.setVisible(false);
       back.setVisible(true);
@@ -67,7 +67,7 @@ void draw() {
     
     
     
-    else if(name=="skena2"){
+    else if(name=="Slotted ALOHA"){
             s2.activateScene();
     kont.setVisible(false);
     back.setVisible(true); 
@@ -80,20 +80,24 @@ void draw() {
     kont.setVisible(false);     
     back.setVisible(true); 
     cscene.setVisible(true);     
-
     }
     
+            else if(name=="Llogarit IP"){
+       ipcal.activateScene();
+    kont.setVisible(false);     
+    back.setVisible(true); 
+    cscene.setVisible(true);     
+    }
+
     
     else if(name=="kthehu"){
           kont.setVisible(true);
           back.setVisible(false);
           cscene.setVisible(false);          
-          cscene.remove("ul");
-          cscene.remove("shto");
-          cscene.remove("Ndrysho sasine e hedhjes se paketave");
+          cscene.remove("Simulimi Slotted ALOHA");
+          cscene.remove("Simulimi ALOHA");
           cscene.remove("Preshkrimi");
           cscene.remove("simulatoriGg");
-
 
   }
     
@@ -126,6 +130,10 @@ public void createScene(String name){
 
 public void controlEvent(ControlEvent theEvent) {
  // print(theEvent);
+if(theEvent.name()=="ALOHA") msimi1();
+if(theEvent.name()=="Slotted ALOHA") msimi2();
+
+ 
  if(theEvent.name() == "Shto routerin")
  dvr.new_router_click();
  
@@ -138,17 +146,19 @@ for(int i=c;i<c+26-1;i++) {
   if(theEvent.isFrom("del"+l)) dvr.deleteX(l);
 }
 
+if(theEvent.name()=="Llogarit IP") msimi4();
+
 }
 
 
 public void msimi1(){
-EmriSkenes="skena1";
+EmriSkenes="ALOHA";
    s1 = new skena1(); 
 redraw();
 }
 
 public void msimi2(){
-  EmriSkenes="skena2";
+  EmriSkenes="Slotted ALOHA";
    s2 = new skena2(); 
 redraw();
 }
@@ -158,6 +168,13 @@ public void DVR(){
    dvr = new DVR(); 
 redraw();
 }
+
+public void msimi4(){
+  EmriSkenes="Llogarit IP";
+   ipcal = new IPcal(); 
+redraw();
+}
+
 
 public void Kthehu(){
   //print("sdfas");

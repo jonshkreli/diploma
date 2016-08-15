@@ -6,13 +6,13 @@ class hostALOHA{
     ArrayList<packet> packetlist;
     String name;
     int lastSend;
-    int rand_range = 50;
+    float rand_range = 50;
+    int hostcolor;
     
   hostALOHA(int h){
     location = new PVector(4,h);
     packetlist = new  ArrayList<packet>();
-        
-    //print("[ "+location+" ]");
+    hostcolor = color(10,200,10);        
   }
   
   void clickevent(){
@@ -28,11 +28,12 @@ class hostALOHA{
   }
   
   void display(){
-      fill(10,200,10);
+    pushStyle();
+      fill(hostcolor);
   rect(location.x,location.y,40,30); //print("[ "+location+" ]");
-        fill(10,20,200);
+     fill(10,20,200);
      text(name,location.x,location.y+25);
-
+    popStyle();
 }
   
   void createpacket(){
@@ -45,7 +46,7 @@ class hostALOHA{
     this.display();
     this.clickevent();
     //print(rand_range);
-    if( random(0,rand_range)<0.4){ this.createpacket(); }
+    if( random(0,100-rand_range)<0.4){ this.createpacket(); }
     
     for(int i= packetlist.size()-1;i>=0;i--)
   {  packet paket = packetlist.get(i);
@@ -66,8 +67,8 @@ class hostSlottedALOHA extends hostALOHA{
       hostSlottedALOHA(int h){
       super(h);
       frekuenca = (long)(random(2,5)*1000);
-      long startTime = System.currentTimeMillis();
-      print(startTime);
+       startTime = System.currentTimeMillis();
+     // print(startTime);
       }
         void run(){
     this.display();
@@ -76,15 +77,17 @@ class hostSlottedALOHA extends hostALOHA{
     textSize(14);
     fill(152,150,250,163);
     textFont(createFont("AndreHeavySFBoldItalic.vlw", 32),14);
-    text("Pushimi: "+frekuenca+" ms",location.x+40,location.y+30);
+    text("Pushimi: "+frekuenca+" ms",location.x+40,location.y+30); 
     popStyle();
     //print(rand_range);
         if(startTime+frekuenca < System.currentTimeMillis()){
-          if( random(0,rand_range)<20.4){ createpacket(); }
+          hostcolor = color(10,200,10);
+        if( random(0,100-rand_range)<30.4){ createpacket(); }
           startTime = System.currentTimeMillis();
           print(" "+startTime);
       }
-    
+      else hostcolor = color(200,10,10);
+  
     
     for(int i= packetlist.size()-1;i>=0;i--)
   {  packet paket = packetlist.get(i);

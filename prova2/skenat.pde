@@ -3,7 +3,8 @@ class skena1{
      ArrayList<hostALOHA> hostlist;
      ControlP5 opsionet;
 Button plus,minus;
-//Slider frekuenca;
+Group simulim_aloha;
+Slider denduria;
     skena1(){
       fill(3,234,34);
       hostlist = new  ArrayList<hostALOHA>();
@@ -13,13 +14,17 @@ Button plus,minus;
     host.name = "H"+i;
     hostlist.add(host);        
      //krijon 5 hoste me ne pozicione 0,100,200,300,400
+     
   }
- 
- plus= cscene.addButton("shto").setPosition(width/2,height-40);
+  simulim_aloha = cscene.addGroup("Simulimi ALOHA");
+denduria = cscene.addSlider("denduria").setPosition(100,height-40).setGroup(simulim_aloha)
+.setLabel("Ndrysho sasine e hedhjes se paketave").setRange(20,80).setValue(50);
+
+/*  plus= cscene.addButton("shto").setPosition(width/2,height-40);
 //print(plus);
 minus=cscene.addButton("ul").setPosition(width/2,height-20);
 cscene.addLabel("Ndrysho sasine e hedhjes se paketave",60,height-40)
-.setFont(createFont("Veranda",12,true));
+.setFont(createFont("Veranda",12,true));*/
 
 //frekuenca= back.addSlider("Sasia",0,100).setDefaultValue(50).setPosition(width/2,height-30);
 //print(frekuenca.getValue());
@@ -30,6 +35,11 @@ cscene.addLabel("Ndrysho sasine e hedhjes se paketave",60,height-40)
           ha.run(); //aktivizon te gjithe hostet          
        }
        checkpackets();
+       
+       
+             // print("val "+denduria.getValue());
+              for(hostALOHA ha: hostlist)
+              ha.rand_range = denduria.getValue();
     }
     
     void checkpackets(){
@@ -68,32 +78,42 @@ cscene.addLabel("Ndrysho sasine e hedhjes se paketave",60,height-40)
 
 class skena2 extends skena1{
 ArrayList <hostSlottedALOHA> hostlist;
-  
+  Slider denduriaHA;
+  Group simulim_Slottedaloha;
+  ArrayList<Slider> pushimet;
       skena2(){
+          simulim_aloha = cscene.addGroup("Simulimi Slotted ALOHA");
       fill(3,234,34);
       hostlist = new  ArrayList<hostSlottedALOHA>();
-      
+      pushimet = new ArrayList<Slider>();
+
  for(int i=0;i<5;i++){
     hostSlottedALOHA host = new hostSlottedALOHA(i*100+20);
     host.name = "H"+i;
     hostlist.add(host);        
      //krijon 5 hoste me ne pozicione 0,100,200,300,400
-  }
- plus= cscene.addButton("shto").setPosition(width/2,height-40);
-//print(plus);
-minus=cscene.addButton("ul").setPosition(width/2,height-20);
-cscene.addLabel("Ndrysho sasine e hedhjes se paketave",60,height-40)
-.setFont(createFont("Veranda",12,true));
-
-//frekuenca= back.addSlider("Sasia",0,100).setDefaultValue(50).setPosition(width/2,height-30);
-//print(frekuenca.getValue());
+     Slider pushim = cscene.addSlider("Nrysho H"+i).setPosition(50,i*100+55)
+     .setValue(host.frekuenca).setRange(2000,5000).setGroup(simulim_aloha);
+     pushimet.add(pushim);  
+}
+denduriaHA = cscene.addSlider("denduria HA").setPosition(100,height-40).setGroup(simulim_aloha)
+.setLabel("Ndrysho sasine e hedhjes se paketave").setRange(20,80).setValue(50);
 }  
   
     void activateScene(){
+      int i=0;
           for(hostSlottedALOHA ha: hostlist){
-          ha.run(); //aktivizon te gjithe hostet          
+          ha.run(); //aktivizon te gjithe hostet 
+          ha.rand_range = denduriaHA.getValue();
+          ha.frekuenca = (long)pushimet.get(i).getValue();
+          
+        i++;
        }
        checkpackets();
+       
+      
+              
+          
     }
     
         void checkpackets(){
