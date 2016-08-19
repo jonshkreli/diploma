@@ -82,8 +82,8 @@ void draw() {
     cscene.setVisible(true);     
     }
     
-            else if(name=="Llogarit IP"){
-       ipcal.activateScene();
+     else if(name=="Llogarit IP"){
+      ipcal.activateScene();
     kont.setVisible(false);     
     back.setVisible(true); 
     cscene.setVisible(true);     
@@ -98,7 +98,7 @@ void draw() {
           cscene.remove("Simulimi ALOHA");
           cscene.remove("Preshkrimi");
           cscene.remove("simulatoriGg");
-
+          cscene.remove("IP buts");
   }
     
   
@@ -130,11 +130,11 @@ public void createScene(String name){
 
 public void controlEvent(ControlEvent theEvent) {
  // print(theEvent);
-if(theEvent.name()=="ALOHA") msimi1();
-if(theEvent.name()=="Slotted ALOHA") msimi2();
+if(theEvent.isFrom("ALOHA")) msimi1();
+if(theEvent.isFrom("Slotted ALOHA")) msimi2();
 
  
- if(theEvent.name() == "Shto routerin")
+ if(theEvent.isFrom( "Shto routerin"))
  dvr.new_router_click();
  
  if(theEvent.isFrom("Preshkrimi")){print("Preshkrimi");}
@@ -146,7 +146,9 @@ for(int i=c;i<c+26-1;i++) {
   if(theEvent.isFrom("del"+l)) dvr.deleteX(l);
 }
 
-if(theEvent.name()=="Llogarit IP") msimi4();
+if(theEvent.isFrom("Llogarit IP")) msimi4();
+if(theEvent.isFrom("mask 1")) print("dsgf");
+
 
 }
 
