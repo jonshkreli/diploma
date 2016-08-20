@@ -38,8 +38,8 @@ int startx, starty,tw,th; String tabtxt[][]; //col row
       llogarit = cscene.addButton("Llogarit").setPosition(width-50,20).setGroup(ip_buts).setWidth(45);
     
      startx=20;  starty=100; tw=49; th=19;
-     tabtxt = new String[5][8];
-     for(int i=0;i<8;i++){
+     tabtxt = new String[5][10];
+     for(int i=0;i<10;i++){
          tabtxt[4][i]="-";tabtxt[1][i]="-";tabtxt[2][i]="-";tabtxt[3][i]="-";
 if(i==0)  {tabtxt[0][i]="IP";}
 if(i==1)  {tabtxt[0][i]="Mask"; }
@@ -47,8 +47,10 @@ if(i==2)  {tabtxt[0][i]="IP subnet-it"; }
 if(i==3)  {tabtxt[0][i]="IP e pare"; }
 if(i==4)  {tabtxt[0][i]="IP e fundit"; }
 if(i==5)  {tabtxt[0][i]="IP broadcast"; }
-if(i==6)  {tabtxt[0][i]="Subnet-i pare"; }
-if(i==7)  {tabtxt[0][i]="Subnet-i fundit"; }
+if(i==6)  {tabtxt[0][i]="Subnet 1"; }
+if(i==7)  {tabtxt[0][i]="Subnet 2"; }
+if(i==8)  {tabtxt[0][i]="Subnet f-1"; }
+if(i==9)  {tabtxt[0][i]="Subnet f"; }
 
      }
      
@@ -205,12 +207,37 @@ for( int i=0; i<short_mask.length(); i++ ) {
     }//if 
     else if(cal_type.getValue()==2){
       
+    tabtxt[okteti_interesant][2]=subnetIP+"";
+
+      
       tabtxt[okteti_interesant][3]=subnetIP+"";
       for(int j=1;j<6;j++){
-        if(j<okteti_interesant){
-      tabtxt[j][6]=tabtxt[j][0];    
-        }
         
+        tabtxt[j][2]=ip[j-1].getText(); //subnet id
+
+        
+        if(j<=counter/8 && j<=okteti_interesant){//pjesa para maskes se klases
+        for(int rr=6;rr<10;rr++)
+      tabtxt[j][rr]=tabtxt[j][2];
+        }
+        else if(j<=okteti_interesant && j>=counter/8){
+        tabtxt[j][6]="0"; //subneti i pare
+        tabtxt[j][7]=magic_nr+""; //subneti i dyte
+        tabtxt[j][8]=(255-magic_nr*2)+""; //subneti i parafundit
+        tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
+        }
+        else if(j>okteti_interesant){
+          if(okteti_interesant!=4){
+        tabtxt[j][6]="0"; tabtxt[j][7]="0";
+        tabtxt[j][8]="0"; tabtxt[j][9]="0";
+      }
+      else if(okteti_interesant==4){
+        tabtxt[j][6]="0"; //subneti i pare
+        tabtxt[j][7]=magic_nr+""; //subneti i dyte
+        tabtxt[j][8]=(255-magic_nr*2)+""; //subneti i parafundit
+        tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
+      }
+        }
       }    
     }
     
@@ -224,7 +251,7 @@ for( int i=0; i<short_mask.length(); i++ ) {
   }
     
   void display_tab(){
-  for(int i=0;i<8;i++){
+  for(int i=0;i<10;i++){
     int temp=starty;
     if(i>5) starty+=80;
   pushStyle();
@@ -238,14 +265,9 @@ for( int i=0; i<short_mask.length(); i++ ) {
   text(tabtxt[1][i],startx+85,starty+txth+i*20);text(tabtxt[2][i],startx+135,starty+txth+i*20);
   text(tabtxt[3][i],startx+185,starty+txth+i*20); text(tabtxt[4][i],startx+235,starty+txth+i*20);
 fill(244);
-if(i==0)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==1)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==2)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==3)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==4)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==5)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==6)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==7)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
+//if(i==0 || i==1 || i==2 || i==3 || i==4 || i==5 || i==6 || i==7 || i==8 || i==9)
+{ text(tabtxt[0][i],startx+5,starty+txth+i*20);}
+
 popStyle();
 starty=temp;
 }
