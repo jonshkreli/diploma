@@ -1,6 +1,5 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 class IPcal{
 Group ip_buts;
 ScrollableList klasat,mask_list[];
@@ -10,14 +9,16 @@ Button llogarit;
 logMsg log;
 
 int startx, starty,tw,th; String tabtxt[][]; //col row
-  int txth=15;
-
+  int txth=19; //lartesia e tabeles
+int itemh = 30; //lartesia e nje elementi
       IPcal(){
+       textSize(20);
       ip_buts= cscene.addGroup("IP buts");
-      klasat = cscene.addScrollableList("Klasa").setDefaultValue(2).setPosition(width/4-127,20).setGroup(ip_buts);
-      String kl[]= {"A","B","C"}; klasat.addItems(kl);
+      klasat = cscene.addScrollableList("Klasa").setDefaultValue(2).setPosition(20,20).setGroup(ip_buts).setItemHeight(itemh);
+      
+    String kl[]= {"A","B","C"}; klasat.addItems(kl);
      //vlerat i mer me getValue dhe jane 1.0 2.0 3.0
-      cal_type = cscene.addRadioButton("Lloji llogaritjes").setValue(1).setPosition(width/2-133,20).setGroup(ip_buts);
+      cal_type = cscene.addRadioButton("Lloji llogaritjes").setValue(1).setPosition(width/4-23,20).setGroup(ip_buts).setItemHeight(itemh);
       cal_type.addItem("Vetem rangun e IP",1);
       cal_type.addItem("Subnetet",2);
       cal_type.addItem("Subnetet dhe IP e secilit",3);
@@ -27,19 +28,20 @@ int startx, starty,tw,th; String tabtxt[][]; //col row
        String mask_num[] = {"0","128","192","224","240","248","252","254","255"};
       for(int oktet=0; oktet < 4 ;oktet++){
    ip[oktet] = cscene.addTextfield("okteti "+(oktet+1)).setPosition(width/2+oktet*50,20).setGroup(ip_buts).setWidth(45);
+  ip[oktet].setLabel("O "+(oktet+1));
   // mask[oktet] = cscene.addTextfield("mask "+(oktet+1)).setLabel("").setPosition(width/2+oktet*50,60).setGroup(ip_buts).setWidth(45).setLock(true);
    // print( ip[oktet].getName()+" ");
-    mask_list[oktet] = cscene.addScrollableList("mask_list "+(oktet+1)).setLabel("255").setPosition(width/2+oktet*50,60).setGroup(ip_buts).setWidth(45);
+    mask_list[oktet] = cscene.addScrollableList("mask_list "+(oktet+1)).setLabel("255").setPosition(width/2+oktet*50,80).setGroup(ip_buts).setWidth(45).setItemHeight(itemh);
     if(oktet==0) mask_list[0].addItem("255",255).setOpen(false);
     else mask_list[oktet].addItems(mask_num).setOpen(false); 
     mask_list[oktet].setDefaultValue(0);
    // println(mask_list[oktet].getLabel()+" "+mask_list[oktet].getValue());
     }
-      llogarit = cscene.addButton("Llogarit").setPosition(width-50,20).setGroup(ip_buts).setWidth(45);
+      llogarit = cscene.addButton("Llogarit").setPosition(width-96,20).setGroup(ip_buts).setSize(93,30);
     
      startx=20;  starty=100; tw=49; th=19;
-     tabtxt = new String[5][8];
-     for(int i=0;i<8;i++){
+     tabtxt = new String[5][10];
+     for(int i=0;i<10;i++){
          tabtxt[4][i]="-";tabtxt[1][i]="-";tabtxt[2][i]="-";tabtxt[3][i]="-";
 if(i==0)  {tabtxt[0][i]="IP";}
 if(i==1)  {tabtxt[0][i]="Mask"; }
@@ -49,6 +51,8 @@ if(i==4)  {tabtxt[0][i]="IP e fundit"; }
 if(i==5)  {tabtxt[0][i]="IP broadcast"; }
 if(i==6)  {tabtxt[0][i]="Subnet-i pare"; }
 if(i==7)  {tabtxt[0][i]="Subnet-i fundit"; }
+if(i==8)  {tabtxt[0][i]="Subnet f-1"; }
+if(i==9)  {tabtxt[0][i]="Subnet f"; } 
 
      }
      
@@ -89,32 +93,32 @@ if(i==7)  {tabtxt[0][i]="Subnet-i fundit"; }
       //kontrollo oktetin I
       String klasa = klasat.getLabel();
       if(i==0){
-      switch(klasa){
-      case "A": if(!(ipnum>=1 && ipnum<=126)) 
-      {display_msg("Klasa A eshte nga 1.0.0.0 ne 126.255.255.255"); ok=false;} break;
-      case "B": if(!(ipnum>=128 && ipnum<=191)) 
-      {display_msg("Klasa B eshte nga 128.0.0.0 ne 191.255.255.255");ok=false;} break;
-      case "C":  if(!(ipnum>=192 && ipnum<=223))
-      {display_msg("Klasa C eshte nga 192.0.0.0 ne 223.255.255.255xxx");ok=false;} break;
+      
+      if(klasa=="A") if(!(ipnum>=1 && ipnum<=126)) 
+      {display_msg("Klasa A eshte nga 1.0.0.0 ne 126.255.255.255"); ok=false;} 
+      if(klasa=="B")  if(!(ipnum>=128 && ipnum<=191)) 
+      {display_msg("Klasa B eshte nga 128.0.0.0 ne 191.255.255.255");ok=false;} 
+      if(klasa=="C")  if(!(ipnum>=192 && ipnum<=223))
+      {display_msg("Klasa C eshte nga 192.0.0.0 ne 223.255.255.255xxx");ok=false;} 
      // default: display_msg("Jep nje vlere per masken"); break;  
-    }
+    
               }
       if(i==1){
-      switch(klasa){
-      case "B": if(masknum!=255) 
-      {display_msg("Klasa B ka maske 255.255.0.0");ok=false;} break;
-      case "C":  if(masknum!=255) 
-      {display_msg("Klasa C ka maske 255.255.255.0");ok=false;} break;
+      
+      if(klasa=="B")  if(masknum!=255) 
+      {display_msg("Klasa B ka maske 255.255.0.0");ok=false;} 
+      if(klasa=="C")  if(masknum!=255) 
+      {display_msg("Klasa C ka maske 255.255.255.0");ok=false;} 
      // default: display_msg("Jep nje vlere per masken"); break;    
-    }
+    
       if(masknum!=255) {mask0=true;  }
                }
             if(i==2){
-      switch(klasa){
-      case "C":  if(masknum!=255)
-      {display_msg("Klasa C ka maske 255.255.255.0"); ok=false;} break;
+      
+      if(klasa=="C") if(masknum!=255)
+      {display_msg("Klasa C ka maske 255.255.255.0"); ok=false;} 
      // default: display_msg("Jep nje vlere per masken"); break;  
-      }
+      
       if(masknum!=255) {mask0=true; }
                }
 
@@ -148,13 +152,13 @@ if(i==7)  {tabtxt[0][i]="Subnet-i fundit"; }
  binary_ip+=Integer.toBinaryString(masknum);
 }
 display_msg("IP ne binare: "+binary_ip);
-int counter = 0;
+int mask_counter = 0;
 for( int i=0; i<short_mask.length(); i++ ) {
     if( short_mask.charAt(i) == '1' ) {
-        counter++;
+        mask_counter++;
     } 
 }
-   display_msg("Maska binare: "+short_mask+". Maska shkurt: /"+counter);
+   display_msg("Maska binare: "+short_mask+". Maska shkurt: /"+mask_counter);
    for(int i=0;i*magic_nr<oktetIP;i++){
    subnetIP=i*magic_nr;
    }
@@ -204,17 +208,43 @@ for( int i=0; i<short_mask.length(); i++ ) {
     }//for rr
     }//if 
     else if(cal_type.getValue()==2){
-      
-      tabtxt[okteti_interesant][3]=subnetIP+"";
-      for(int j=1;j<6;j++){
-        if(j<okteti_interesant){
-      tabtxt[j][6]=tabtxt[j][0];    
-        }
+     String klasa = klasat.getLabel();
+    int okteteKlase = 1;
+    if(klasa=="B") okteteKlase = 2; 
+    else if(klasa=="C") okteteKlase = 3;
+    
+    tabtxt[okteti_interesant][2]=subnetIP+"";
+
+     
+       tabtxt[okteti_interesant][3]=subnetIP+"";
+       for(int j=1;j<6;j++){
         
-      }    
+        tabtxt[j][2]=ip[j-1].getText(); //subnet id
+
+        
+        if(j<=okteteKlase){//pjesa para maskes se klases
+        for(int rr=6;rr<10;rr++)
+      tabtxt[j][rr]=tabtxt[j][0];
+        }
+        else if(j>okteteKlase){
+        tabtxt[j][6]="0"; tabtxt[j][7]="0";
+        tabtxt[j][8]="0"; tabtxt[j][9]="0";
+       
+         if(j<okteti_interesant){
+        tabtxt[j][8]="255"; tabtxt[j][9]="255";
+        }
+         }
+         
+         if(j==okteti_interesant){
+      // tabtxt[j][6]="0"; //subneti i pare
+       tabtxt[j][7]=magic_nr+""; //subneti i dyte
+       tabtxt[j][8]=(255-magic_nr*2)+""; //subneti i parafundit
+      tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
+        }   
     }
     
   }
+      }
   
     }
   
@@ -224,7 +254,8 @@ for( int i=0; i<short_mask.length(); i++ ) {
   }
     
   void display_tab(){
-  for(int i=0;i<8;i++){
+    
+  for(int i=0;i<10;i++){
     int temp=starty;
     if(i>5) starty+=80;
   pushStyle();
@@ -234,18 +265,11 @@ for( int i=0; i<short_mask.length(); i++ ) {
   fill(50,50,150);
   rect(startx,starty+i*20,tw+30,th);  
     //pushStyle();
-  textSize(12); fill(3);
-  text(tabtxt[1][i],startx+85,starty+txth+i*20);text(tabtxt[2][i],startx+135,starty+txth+i*20);
+  textSize(16); fill(3);
+  text(tabtxt[1][i],startx+85,starty+txth+i*20);  text(tabtxt[2][i],startx+135,starty+txth+i*20);
   text(tabtxt[3][i],startx+185,starty+txth+i*20); text(tabtxt[4][i],startx+235,starty+txth+i*20);
 fill(244);
-if(i==0)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==1)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==2)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==3)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==4)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==5)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==6)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
-if(i==7)  { text(tabtxt[0][i],startx+5,starty+txth+i*20);}
+{ text(tabtxt[0][i],startx+5,starty+txth+i*20);}
 popStyle();
 starty=temp;
 }
