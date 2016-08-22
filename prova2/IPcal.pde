@@ -150,13 +150,13 @@ if(i==9)  {tabtxt[0][i]="Subnet f"; }
  binary_ip+=Integer.toBinaryString(masknum);
 }
 display_msg("IP ne binare: "+binary_ip);
-int counter = 0;
+int mask_counter = 0;
 for( int i=0; i<short_mask.length(); i++ ) {
     if( short_mask.charAt(i) == '1' ) {
-        counter++;
+        mask_counter++;
     } 
 }
-   display_msg("Maska binare: "+short_mask+". Maska shkurt: /"+counter);
+   display_msg("Maska binare: "+short_mask+". Maska shkurt: /"+mask_counter);
    for(int i=0;i*magic_nr<oktetIP;i++){
    subnetIP=i*magic_nr;
    }
@@ -207,6 +207,11 @@ for( int i=0; i<short_mask.length(); i++ ) {
     }//if 
     else if(cal_type.getValue()==2){
       
+    String klasa = klasat.getLabel();
+    int okteteKlase = 1;
+    if(klasa=="B") okteteKlase = 2; 
+    else if(klasa=="C") okteteKlase = 3;
+    
     tabtxt[okteti_interesant][2]=subnetIP+"";
 
       
@@ -216,27 +221,24 @@ for( int i=0; i<short_mask.length(); i++ ) {
         tabtxt[j][2]=ip[j-1].getText(); //subnet id
 
         
-        if(j<=counter/8 && j<=okteti_interesant){//pjesa para maskes se klases
+        if(j<=okteteKlase){//pjesa para maskes se klases
         for(int rr=6;rr<10;rr++)
-      tabtxt[j][rr]=tabtxt[j][2];
+      tabtxt[j][rr]=tabtxt[j][0];
         }
-        else if(j<=okteti_interesant && j>=counter/8){
-        tabtxt[j][6]="0"; //subneti i pare
-        tabtxt[j][7]=magic_nr+""; //subneti i dyte
-        tabtxt[j][8]=(255-magic_nr*2)+""; //subneti i parafundit
-        tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
-        }
-        else if(j>okteti_interesant){
-          if(okteti_interesant!=4){
+        else if(j>okteteKlase){
         tabtxt[j][6]="0"; tabtxt[j][7]="0";
         tabtxt[j][8]="0"; tabtxt[j][9]="0";
-      }
-      else if(okteti_interesant==4){
-        tabtxt[j][6]="0"; //subneti i pare
+        
+        if(j<okteti_interesant){
+        tabtxt[j][8]="255"; tabtxt[j][9]="255";
+        }
+        }
+        
+         if(j==okteti_interesant){
+       // tabtxt[j][6]="0"; //subneti i pare
         tabtxt[j][7]=magic_nr+""; //subneti i dyte
         tabtxt[j][8]=(255-magic_nr*2)+""; //subneti i parafundit
-        tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
-      }
+       tabtxt[j][9]=(255-magic_nr*1)+""; //subneti i fundit
         }
       }    
     }
