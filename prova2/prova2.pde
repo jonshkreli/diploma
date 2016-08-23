@@ -6,7 +6,7 @@ ControlP5 cscene;
 //ScrollableList main_menu;
 
 Textfield titulli;
-String[] menus= {"ALOHA","Slotted ALOHA","DVR","Llogarit IP","hgdgd","wrss"};
+String[] menus= {"ALOHA","Slotted ALOHA","DVR","Llogarit IP","ARP","wrss"};
 
 Button menubut[] = new Button[10];
 String EmriSkenes ="";
@@ -15,7 +15,7 @@ skena1 s1;
 skena2 s2;
 DVR dvr;
 IPcal ipcal;
-
+ARP arp;
 
 void setup(){
   //fullScreen(P2D);
@@ -88,6 +88,13 @@ void draw() {
     back.setVisible(true); 
     cscene.setVisible(true);     
     }
+    
+     else if(name=="ARP"){
+    arp.activateScene();
+    kont.setVisible(false);     
+    back.setVisible(true); 
+    cscene.setVisible(true);     
+    }
 
     
     else if(name=="kthehu"){
@@ -149,6 +156,9 @@ for(int i=c;i<c+26-1;i++) {
 if(theEvent.isFrom("Llogarit IP")) msimi4();
 if(theEvent.isFrom("mask 1")) print("dsgf");
 
+if(theEvent.isFrom(arp.next)) arp.nextBut();
+if(theEvent.isFrom(arp.prev)) arp.prevBut();
+
 
 }
 
@@ -174,6 +184,12 @@ redraw();
 public void msimi4(){
   EmriSkenes="Llogarit IP";
    ipcal = new IPcal(); 
+redraw();
+}
+
+public void ARP(){
+  EmriSkenes="ARP";
+   arp = new ARP(); 
 redraw();
 }
 

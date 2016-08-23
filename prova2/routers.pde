@@ -14,7 +14,6 @@ Router(String name){
     interfaces_num = 4;
     connection_num = 0;
     position = new PVector(random(0+50,width-100),random(50,height-100));
-    display();
     //print(name);
     tab = new table();
     connected_routers = new ArrayList<Router>();
@@ -27,7 +26,6 @@ Router(String name,PVector poz){
     interfaces_num = 4;
     connection_num = 0;
     position = poz;
-    display();
     //print(name);
     tab = new table();
     connected_routers = new ArrayList<Router>();

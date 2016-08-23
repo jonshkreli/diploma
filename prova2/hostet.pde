@@ -10,7 +10,7 @@ class hostALOHA{
     int hostcolor;
     
   hostALOHA(int h){
-    location = new PVector(4,h);
+    location = new PVector(width/20,h);
     packetlist = new  ArrayList<packet>();
     hostcolor = color(10,200,10);        
   }
