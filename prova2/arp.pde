@@ -11,7 +11,7 @@ Router r1,r2;
  
  int ndarjaW = width/10;
  int ndarjaH = height/10;
-PImage PC;
+ PImage PC;
 
 ARP(){
 arpGR = cscene.addGroup("arpGR");

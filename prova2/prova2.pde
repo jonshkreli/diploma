@@ -17,6 +17,10 @@ DVR dvr;
 IPcal ipcal;
 ARP arp;
 
+/*madhesite e list,slider,radio*/
+int itemW;
+int itemH;
+
 void setup(){
   //fullScreen(P2D);
   //noLoop();
@@ -28,6 +32,7 @@ titulli.setFont( createFont("Arial",24,true) );
 
 
 cscene = new ControlP5(this); //kontrolli skenes
+cscene.setFont(createFont("Arial",height/30,true));
 
 back = new ControlP5(this);
 back.setVisible(false);
@@ -46,6 +51,8 @@ h+=80;
 
 //boom = loadImage("aaa.png");
   
+ itemW = width/20;
+ itemH = height/20;
 
 }
 

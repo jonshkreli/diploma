@@ -18,7 +18,7 @@ Slider denduria;
   }
   simulim_aloha = cscene.addGroup("Simulimi ALOHA");
 denduria = cscene.addSlider("denduria").setPosition(100,height-40).setGroup(simulim_aloha)
-.setLabel("Ndrysho sasine e hedhjes se paketave").setRange(20,80).setValue(50);
+.setLabel("Ndrysho sasine e hedhjes se paketave").setRange(20,80).setValue(50).setSize(itemW*3,itemH*1);
 
 /*  plus= cscene.addButton("shto").setPosition(width/2,height-40);
 //print(plus);
@@ -78,7 +78,6 @@ cscene.addLabel("Ndrysho sasine e hedhjes se paketave",60,height-40)
 
 class skena2 extends skena1{
 ArrayList <hostSlottedALOHA> hostlist;
-  Slider denduriaHA;
   Group simulim_Slottedaloha;
   ArrayList<Slider> pushimet;
       skena2(){
@@ -92,19 +91,17 @@ ArrayList <hostSlottedALOHA> hostlist;
     host.name = "H"+i;
     hostlist.add(host);        
      //krijon 5 hoste me ne pozicione 0,100,200,300,400
-     Slider pushim = cscene.addSlider("Nrysho H"+i).setPosition(50,i*100+55)
+     Slider pushim = cscene.addSlider("Nrysho H"+i).setPosition(50,i*100+55).setSize(itemW*3,itemH*1)
      .setValue(host.frekuenca).setRange(2000,5000).setGroup(simulim_aloha);
      pushimet.add(pushim);  
 }
-denduriaHA = cscene.addSlider("denduria HA").setPosition(100,height-40).setGroup(simulim_aloha)
-.setLabel("Ndrysho sasine e hedhjes se paketave").setRange(20,80).setValue(50);
 }  
   
     void activateScene(){
       int i=0;
           for(hostSlottedALOHA ha: hostlist){
           ha.run(); //aktivizon te gjithe hostet 
-          ha.rand_range = denduriaHA.getValue();
+          ha.rand_range = denduria.getValue();
           ha.frekuenca = (long)pushimet.get(i).getValue();
           
         i++;

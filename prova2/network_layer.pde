@@ -17,23 +17,23 @@ class DVR{
 
 
   DVR(){    
-   simulatori= cscene.getTab("default").setLabel("Simulatori");
-    pershkrimi = cscene.addTab("Preshkrimi");
+   simulatori= cscene.getTab("default").setLabel("Simulatori").setSize(itemW*5,itemH);
+    pershkrimi = cscene.addTab("Preshkrimi").setSize(itemW*5,itemH);
     simulatoriGg = cscene.addGroup("simulatoriGg");
-    next_step = cscene.addButton("Meso").setPosition(width/2-100,10).setTab("default").setGroup(simulatoriGg);
-    reset = cscene.addButton("Rivendos").setPosition(width/2-200,10).setTab("default").setGroup(simulatoriGg);
+    next_step = cscene.addButton("Meso").setPosition(itemW,(int)(itemH*1.5)).setSize(itemW*4,itemH).setTab("default").setGroup(simulatoriGg);
+    reset = cscene.addButton("Rivendos").setPosition(itemW+itemW*5,(int)(itemH*1.5)).setSize(itemW*4,itemH).setTab("default").setGroup(simulatoriGg);
     //new_router = cscene.addButton("Shto router").setPosition(width/2+50,20);
    shtim_routeri = cscene.addGroup("Routeri i ri")
-                .setPosition(width/2+100,20).setWidth(175)
+                .setPosition(width-itemW*9,(int)(itemH*1.5)).setWidth(itemW*8).setBarHeight(itemH)
                 .setBackgroundColor(color(200,200,200,50))
                 .setOpen(false).setTab("default").setGroup(simulatoriGg);
 //cscene.addLabel("Emri routerit").setPosition(5,5).setGroup(shtim_routeri);
 //cscene.add("yuty").setPosition(10,40).setGroup(shtim_routeri);
-  new_router = cscene.addButton("Shto routerin").setGroup(shtim_routeri);
+  new_router = cscene.addButton("Shto routerin").setGroup(shtim_routeri).setSize(shtim_routeri.getWidth(),itemH);
 poziciono_butonat();
        
     emri_r= cscene.addScrollableList("Emri i routerit").setPosition(0,5).setGroup(shtim_routeri);
-    emri_r.setOpen(false).setHeight(80).setItemHeight(15);
+    emri_r.setOpen(false).setHeight(itemH*6).setItemHeight(itemH).setBarHeight(itemH);
     emri_r.setColorBackground(color(100,100,230)).setColorActive(color(12));
     emri_r.setColorValue(color(240,240,4));
     print(emri_r.getValueLabel());
@@ -44,15 +44,17 @@ init_routers();
 }
 
 void poziciono_butonat(){
-          shtim_routeri .setBackgroundHeight(70+nr_routerave*12);
-          new_router.setPosition(51,nr_routerave*12+50); 
+  //if(routers!=null)
+  //nr_routerave = routers.size();
+          shtim_routeri .setBackgroundHeight(itemH*5+(int)(nr_routerave*itemH*1.2));
+          new_router.setPosition(0,itemH*5+(int)(nr_routerave*itemH*1.2)-(int)(itemH*1.2)); 
 
 }
 
     void init_routers(){
     lidhjet = cscene.addCheckBox("Lidh routerin").setGroup(shtim_routeri);
-    lidhjet.setPosition(21,40).setItemHeight(11).setBarHeight(3);
-
+    lidhjet.setPosition(itemW*2,itemH*2).setItemHeight((int)(itemH*1.3)).setItemWidth(itemW).setBarHeight((int)(itemH*1));
+    
     dist_lidhjes = new ArrayList<Slider>();
     delete_buts = new ArrayList<Button>();
 
@@ -99,12 +101,12 @@ void poziciono_butonat(){
      lidhjet.addItem(R.name,0).setLabel(R.name);
      
      Slider ds =cscene.addSlider("Distanca me "+R.name)
-    .setGroup(shtim_routeri).setPosition(51,40+j*12).setHeight(12)
-    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+    .setGroup(shtim_routeri).setPosition(itemW*4,itemH*2+j*(int)(itemH*1.3)).setHeight(itemH)
+    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(itemW*2).setLabelVisible(false);
     dist_lidhjes.add(ds);
     
    Button delete = cscene.addButton("del"+R.name).setLabel("X")
-   .setGroup(shtim_routeri).setPosition(5,40+j*12).setHeight(12).setWidth(10);
+   .setGroup(shtim_routeri).setPosition(itemW/5,itemH*2+j*(int)(itemH*1.3)).setHeight(itemH).setWidth(itemW);
    delete_buts.add(delete);
    
 j++;  
@@ -251,14 +253,14 @@ public void new_router_click(){
    finally{String err="Chackbox-i "+NewRname+" ekziston"; print(err); display_msg(err);}
 
      Slider Newds =cscene.addSlider("Distanca me "+NewRname)
-    .setGroup(shtim_routeri).setPosition(51,40+(nr_routerave-1)*12).setHeight(12)
-    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(60);
+    .setGroup(shtim_routeri).setPosition(itemW*4,itemH*2+(nr_routerave-1)*(int)(itemH*1.3)).setHeight(itemH)
+    .setColorActive(color(200,26,27)).setRange(1,30).setWidth(itemW*2).setLabelVisible(false);
     try{ dist_lidhjes.add(Newds);}
     catch(ArrayIndexOutOfBoundsException n){ print(n); display_msg(n.toString()); }
     finally{String err="Slideri "+NewRname+" ekziston"; print(err); display_msg(err);}
 
    Button delete = cscene.addButton("del"+NewRname).setLabel("X")
-   .setGroup(shtim_routeri).setPosition(5,40+(nr_routerave-1)*12).setHeight(12).setWidth(10);
+   .setGroup(shtim_routeri).setPosition(itemW/5,itemH*2+(nr_routerave-1)*(int)(itemH*1.3)).setHeight(itemH).setWidth(itemW);
    delete_buts.add(delete);
 
 
@@ -270,31 +272,63 @@ public void new_router_click(){
 
  void deleteX(String Rname){
 //print("del" +Rname);
+/*shton emrin e routerit ne liste*/
 emri_r.addItem(Rname,Rname).setLabel(Rname);
-char rn = Rname.charAt(0);
+char rn = Rname.charAt(0); //Emri i routeit qe do fshihet
 
+/*heq emrin e routerit nga radio box*/
 for(Toggle t: lidhjet.getItems()){
   //println("=="+t.getLabel().toString()+"=="+t.getName().toString()+"=="+(String)Rname+"==");
 char tn = t.getName().charAt(0);
 if(tn==rn) t.remove();
 }
 
+/*heq emrin e routerit nga sliderat*/
 for(Slider s: dist_lidhjes){
 char tn = s.getName().charAt(s.getName().length()-1);
 if(tn==rn) s.remove();
 }
 
+/*heq emrin e routerit nga butoni "X" (delete)*/
 for(Button d: delete_buts){ 
   char tn = d.getName().charAt(3);
-  if(tn==rn) d.remove();
+  print("["+tn+" "+rn+"]");
+  if(tn==rn){
+    try{
+  d.remove();
+break;
 }
-
+  catch(ArrayIndexOutOfBoundsException ex){
+    println("catch: ");
+  println(ex.getMessage());
+    println(ex.getCause());
+  }
+      catch(NullPointerException ex){
+  println("MSG "+ex.getMessage());
+  }
+  finally{ println("F");}
+}
+}
+println("F2");
+/*heq routerin nga ArrayList e routerave*/
 for(Router R:routers) {
 char Rn = R.name.charAt(0);
 if(Rn==rn){
+  
   R.connected_routers.clear();
-  routers.remove(R);
+  try{ routers.remove(R);
+}
+  catch(ArrayIndexOutOfBoundsException ex){
+  println("MSG "+ex.getMessage());
+  }
+    catch(NullPointerException ex){
+  println("MSG "+ex.getMessage());
+  }
+  finally{println("F3");}
 }}
+println("F4");
+  if(routers!=null)
+  nr_routerave = routers.size();
 
 poziciono_butonat();
 }

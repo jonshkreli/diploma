@@ -10,15 +10,15 @@ logMsg log;
 
 int startx, starty,tw,th; String tabtxt[][]; //col row
   int txth=19; //lartesia e tabeles
-int itemh = 30; //lartesia e nje elementi
       IPcal(){
        textSize(20);
       ip_buts= cscene.addGroup("IP buts");
-      klasat = cscene.addScrollableList("Klasa").setDefaultValue(2).setPosition(20,20).setGroup(ip_buts).setItemHeight(itemh);
+      klasat = cscene.addScrollableList("Klasa").setDefaultValue(2).setPosition(20,20).setGroup(ip_buts).setItemHeight(itemH).setBarHeight(itemH);
+      
       
     String kl[]= {"A","B","C"}; klasat.addItems(kl);
      //vlerat i mer me getValue dhe jane 1.0 2.0 3.0
-      cal_type = cscene.addRadioButton("Lloji llogaritjes").setValue(1).setPosition(width/4-23,20).setGroup(ip_buts).setItemHeight(itemh);
+      cal_type = cscene.addRadioButton("Lloji llogaritjes").setValue(1).setPosition(width/4-23,20).setGroup(ip_buts).setItemHeight(itemH).setBarHeight(itemH).setSize(itemW,itemH);
       cal_type.addItem("Vetem rangun e IP",1);
       cal_type.addItem("Subnetet",2);
       cal_type.addItem("Subnetet dhe IP e secilit",3);
@@ -27,11 +27,11 @@ int itemh = 30; //lartesia e nje elementi
       mask_list = new ScrollableList[4];
        String mask_num[] = {"0","128","192","224","240","248","252","254","255"};
       for(int oktet=0; oktet < 4 ;oktet++){
-   ip[oktet] = cscene.addTextfield("okteti "+(oktet+1)).setPosition(width/2+oktet*50,20).setGroup(ip_buts).setWidth(45);
-  ip[oktet].setLabel("O "+(oktet+1));
+   ip[oktet] = cscene.addTextfield("okteti "+(oktet+1)).setPosition((width/2)+oktet*(itemW*2),20).setGroup(ip_buts);
+  ip[oktet].setLabel("O "+(oktet+1)).setSize((int)(itemW*1.7),itemH);
   // mask[oktet] = cscene.addTextfield("mask "+(oktet+1)).setLabel("").setPosition(width/2+oktet*50,60).setGroup(ip_buts).setWidth(45).setLock(true);
    // print( ip[oktet].getName()+" ");
-    mask_list[oktet] = cscene.addScrollableList("mask_list "+(oktet+1)).setLabel("255").setPosition(width/2+oktet*50,80).setGroup(ip_buts).setWidth(45).setItemHeight(itemh);
+    mask_list[oktet] = cscene.addScrollableList("mask_list "+(oktet+1)).setLabel("255").setPosition(width/2+oktet*(itemW*2),80).setGroup(ip_buts).setWidth((int)(itemW*1.7)).setItemHeight(itemH).setBarHeight(itemH);
     if(oktet==0) mask_list[0].addItem("255",255).setOpen(false);
     else mask_list[oktet].addItems(mask_num).setOpen(false); 
     mask_list[oktet].setDefaultValue(0);
