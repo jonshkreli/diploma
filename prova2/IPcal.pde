@@ -1,5 +1,6 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 class IPcal{
 Group ip_buts;
 ScrollableList klasat,mask_list[];
@@ -7,6 +8,7 @@ RadioButton cal_type;
 Textfield ip[];//,mask[];
 Button llogarit;
 logMsg log;
+InputMethodManager im;
 
 int startx, starty,tw,th; String tabtxt[][]; //col row
   int txth=19; //lartesia e tabeles
@@ -14,8 +16,7 @@ int startx, starty,tw,th; String tabtxt[][]; //col row
        textSize(20);
       ip_buts= cscene.addGroup("IP buts");
       klasat = cscene.addScrollableList("Klasa").setDefaultValue(2).setPosition(20,20).setGroup(ip_buts).setItemHeight(itemH).setBarHeight(itemH);
-      
-      
+             
     String kl[]= {"A","B","C"}; klasat.addItems(kl);
      //vlerat i mer me getValue dhe jane 1.0 2.0 3.0
       cal_type = cscene.addRadioButton("Lloji llogaritjes").setValue(1).setPosition(width/4-23,20).setGroup(ip_buts).setItemHeight(itemH).setBarHeight(itemH).setSize(itemW,itemH);
@@ -62,6 +63,27 @@ if(i==9)  {tabtxt[0][i]="Subnet f"; }
      void activateScene(){
        display_tab();
        log.display();
+       
+      boolean neFokus = false;
+       for(int i=0;i<ip.length;i++){
+       if(ip[i].isFocus()){ neFokus=true; print("F ");}
+     }
+       
+       
+       if(neFokus==true && showing==false ){
+         print("showing ");
+       showVirtualKeyboard(); 
+     }
+       else if(neFokus==false && showing==true ){
+       print("hidding ");
+              for(int i=0;i<ip.length;i++){
+                ip[i].setFocus(false);
+     }
+       hideVirtualKeyboard(); }
+       
+       else if(neFokus==true && showing==true ){print("eshte  ");}
+       else if(neFokus==false && showing==false){print("nuk esht  ");}
+
       }
       
       
@@ -275,6 +297,17 @@ starty=temp;
 }
   }
   
+  void showVirtualKeyboard() {
+  InputMethodManager imm = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
+  imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+  showing=true;
+}
+ 
+void hideVirtualKeyboard() {
+  InputMethodManager imm = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
+  imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+  showing=false;
+}
   
 }
 

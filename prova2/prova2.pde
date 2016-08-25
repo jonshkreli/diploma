@@ -1,5 +1,12 @@
 import controlP5.*;
 
+import android.view.inputmethod.InputMethodManager;
+import android.content.Context;
+import android.app.Activity;
+
+boolean showing = false;
+Activity act;
+
 ControlP5 kont;
 ControlP5 back;
 ControlP5 cscene;
@@ -22,37 +29,37 @@ int itemW;
 int itemH;
 
 void setup(){
-  //fullScreen(P2D);
+  fullScreen(P2D);
   //noLoop();
-  size(600,600);
-kont = new ControlP5(this);
-titulli = kont.addTextfield("Bazat e network-ut").setPosition(0,0).setSize(width,40);
-titulli.setWidth(width);
-titulli.setFont( createFont("Arial",24,true) );
+  //size(600,600);
+   itemW = width/20;
+ itemH = height/20;
 
+kont = new ControlP5(this);
+titulli = kont.addTextfield("Bazat e network-ut").setPosition(0,0).setSize(width,itemH*5/2);
+titulli.setFont( createFont("Arial",itemH*2,true) );
+titulli.align(100,10,100,100);
 
 cscene = new ControlP5(this); //kontrolli skenes
 cscene.setFont(createFont("Arial",height/30,true));
 
 back = new ControlP5(this);
 back.setVisible(false);
-Button kthehu = back.addButton("Kthehu").setPosition(width-170,height-60).setSize(120,45).setFont(createFont("Arial",26,true));;
+Button kthehu = back.addButton("Kthehu").setPosition(width-itemW*5,height-itemH*5/2).setSize(itemW*9/2,itemH*2).setFont(createFont("Arial",itemH*3/2,true));;
 
 //main_menu = kont.addScrollableList("Menuja").setWidth(width)
 //.setHeight(height-50).setOpen(true).setPosition(0,50);
 
-int h = 95;
+int h = itemH*3;
 for(int i=0;i < menus.length;i++){
 //println(menus[i]);
-menubut[i] = kont.addButton(menus[i]).setPosition(0,h).setSize(width, 80).setFont(createFont("Arial",26,true));
+menubut[i] = kont.addButton(menus[i]).setPosition(0,h).setSize(width, itemH*2).setFont(createFont("Arial",itemH,true));
 //main_menu.addItem(menus[i],menubut[i]);
-h+=80;
+h+=itemH*2;
 }
 
 //boom = loadImage("aaa.png");
-  
- itemW = width/20;
- itemH = height/20;
+   act = this.getActivity();
 
 }
 
@@ -93,7 +100,7 @@ void draw() {
       ipcal.activateScene();
     kont.setVisible(false);     
     back.setVisible(true); 
-    cscene.setVisible(true);     
+    cscene.setVisible(true); 
     }
     
      else if(name=="ARP"){
