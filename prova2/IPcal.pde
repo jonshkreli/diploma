@@ -8,7 +8,7 @@ RadioButton cal_type;
 Textfield ip[];//,mask[];
 Button llogarit;
 logMsg log;
-InputMethodManager im;
+//InputMethodManager im;
 
 int startx, starty,tw,th; String tabtxt[][]; //col row
   int txth=19; //lartesia e tabeles
@@ -72,14 +72,15 @@ if(i==9)  {tabtxt[0][i]="Subnet f"; }
        
        if(neFokus==true && showing==false ){
          print("showing ");
-       showVirtualKeyboard(); 
+      // showVirtualKeyboard(); 
      }
        else if(neFokus==false && showing==true ){
        print("hidding ");
               for(int i=0;i<ip.length;i++){
                 ip[i].setFocus(false);
      }
-       hideVirtualKeyboard(); }
+      // hideVirtualKeyboard();
+    }
        
        else if(neFokus==true && showing==true ){print("eshte  ");}
        else if(neFokus==false && showing==false){print("nuk esht  ");}
@@ -297,7 +298,7 @@ starty=temp;
 }
   }
   
-  void showVirtualKeyboard() {
+ /* void showVirtualKeyboard() {
   InputMethodManager imm = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
   imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
   showing=true;
@@ -307,7 +308,7 @@ void hideVirtualKeyboard() {
   InputMethodManager imm = (InputMethodManager) act.getSystemService(Context.INPUT_METHOD_SERVICE);
   imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
   showing=false;
-}
+}*/
   
 }
 

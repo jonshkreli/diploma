@@ -9,8 +9,6 @@ int coldisenable = color(150,150,150);
 
 Router r1,r2;
  
- int ndarjaW = width/10;
- int ndarjaH = height/10;
  PImage PC;
 
 ARP(){
@@ -20,10 +18,10 @@ next = cscene.addButton("Para").setPosition(width/2+width/20,height-height/10).s
    prev.setColorBackground(colenable);
    next.setColorBackground(colenable);
 
-r1 = new Router("r1",new PVector(ndarjaW,ndarjaH*2));
-r2 = new Router("r2",new PVector(ndarjaW,ndarjaH*2+ndarjaH*5));
+r1 = new Router("r1",new PVector(itemW,itemH*2));
+r2 = new Router("r2",new PVector(itemW,itemH*2+itemH*5));
 PC = loadImage("pc.png");
-PC.resize(ndarjaW,ndarjaH);
+PC.resize(itemW,itemH);
 
 
 }
@@ -31,16 +29,16 @@ PC.resize(ndarjaW,ndarjaH);
   void activateScene(){
 //    print(stepNum);
 r1.display(); r2.display();
-image(PC,width-ndarjaW*2,ndarjaH*2); image(PC,width-ndarjaW*2,ndarjaH*2+ndarjaH*5);
+image(PC,width-itemW*2,itemH*2); image(PC,width-itemW*2,itemH*2+itemH*5);
 
 pushStyle();
 stroke(14,200,80);
-line(ndarjaW,ndarjaH*2,width-ndarjaW*2,ndarjaH*2); //-
-line(width-ndarjaW*2,ndarjaH*2,width-ndarjaW*2,ndarjaH*2+ndarjaH*5); // |
-line(ndarjaW,ndarjaH*2+ndarjaH*5,width-ndarjaW*2,ndarjaH*2+ndarjaH*5); // _
+line(itemW,itemH*2,width-itemW*2,itemH*2); //-
+line(width-itemW*2,itemH*2,width-itemW*2,itemH*2+itemH*5); // |
+line(itemW,itemH*2+itemH*5,width-itemW*2,itemH*2+itemH*5); // _
 popStyle();
 
-packet(ndarjaW+20,ndarjaH*2);
+packet(itemW+20,itemH*2,new String[] {"AAA","DDD","10.1.1.7/8","172.18.0.4/18"});
 
     if(stepNum==1) step1();
     if(stepNum==2) step2();
@@ -69,19 +67,26 @@ packet(ndarjaW+20,ndarjaH*2);
   
   }
   
-  void packet(int pozX,int pozY){
+  void packet(int pozX,int pozY,String[] adresat){
+    /* adresat[0] -> MAC derguesi    adresat[2] -> IP derguesi
+       adresat[1] -> MAC marresi     adresat[3] -> IP marresi
+    */
   pushStyle();
+  int globalitemH = itemH; itemH = (int) (itemH*2);
+  int globalitemW = itemW; itemW = (int) (itemW*1.5);
   fill(255);
   rectMode(CORNER);
-  rect(pozX,pozY,ndarjaW*2,ndarjaH);
+  rect(pozX,pozY,itemW*4,itemH);  //drejtkendeshi tabeles
   fill(0);
-  line(pozX+ndarjaW,pozY,pozX+ndarjaW,pozY+ndarjaH);
+  line(pozX+itemW*1,pozY,pozX+itemW*1,pozY+itemH); //vija ndarese vertikale
   
-  line(pozX,pozY+ndarjaH*0.33,pozX+ndarjaW*2,pozY+ndarjaH*0.33);
-  line(pozX,pozY+ndarjaH*0.66,pozX+ndarjaW*2,pozY+ndarjaH*0.66);
-textSize(ndarjaH/4); 
- text("MAC",pozX+3,pozY+(ndarjaH/3) - 5);  text("IP",pozX+(ndarjaW)+3,pozY+ndarjaH/3 - 5);
-
+  line(pozX,pozY+itemH*0.33,pozX+itemW*4,pozY+itemH*0.33);  //vija horiz
+  line(pozX,pozY+itemH*0.66,pozX+itemW*4,pozY+itemH*0.66);  //vija horiz
+  textSize(itemH/4); 
+ text("MAC",pozX+3,pozY+(itemH/3) -2);  text("IP",pozX+(itemW*1)+3,pozY+itemH/3 - 2);
+ text(adresat[0],pozX+3,pozY+(itemH/3)*2 -2);  text(adresat[2],pozX+(itemW*1)+3,pozY+2*itemH/3 - 2);
+ text(adresat[1],pozX+3,pozY+(itemH/3)*3 -2);  text(adresat[3],pozX+(itemW*1)+3,pozY+3*itemH/3 - 2);
+ itemH = globalitemH; itemW = globalitemW;
   popStyle();
   }
 
