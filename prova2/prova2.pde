@@ -1,11 +1,11 @@
 import controlP5.*;
 
-import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
-import android.app.Activity;
+//import android.view.inputmethod.InputMethodManager;
+//import android.content.Context;
+//import android.app.Activity;
 
 boolean showing = false;
-Activity act;
+//Activity act;
 
 ControlP5 kont;
 ControlP5 back;
@@ -29,9 +29,8 @@ int itemW;
 int itemH;
 
 void setup(){
-  fullScreen(P2D);
-  //noLoop();
-  //size(600,600);
+  //fullScreen(P2D);
+  size(600,600);
    itemW = width/20;
  itemH = height/20;
 
@@ -45,7 +44,7 @@ cscene.setFont(createFont("Arial",height/30,true));
 
 back = new ControlP5(this);
 back.setVisible(false);
-Button kthehu = back.addButton("Kthehu").setPosition(width-itemW*5,height-itemH*5/2).setSize(itemW*9/2,itemH*2).setFont(createFont("Arial",itemH*3/2,true));;
+Button kthehu = back.addButton("Kthehu").setPosition(width-itemW*7,height-itemH*5/2).setSize(itemW*7,itemH*2).setFont(createFont("Arial",itemH*3/2,true));;
 
 //main_menu = kont.addScrollableList("Menuja").setWidth(width)
 //.setHeight(height-50).setOpen(true).setPosition(0,50);
@@ -59,7 +58,7 @@ h+=itemH*2;
 }
 
 //boom = loadImage("aaa.png");
-   act = this.getActivity();
+   //act = this.getActivity();
 
 }
 
